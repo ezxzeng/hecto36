@@ -1,0 +1,14 @@
+mcu_rot: 90+pinky_splay
+mcu_x: -21
+mcu_y: -26.5
+reset_x: -43
+reset_y: -27.5
+power_x: -42
+power_y: -37
+jst_x: -40
+jst_y: -23.5
+
+reset_rot: 90+pinky_splay
+jst_rot: 180
+
+bottom_left_pcb_cut: 13

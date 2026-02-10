@@ -6,20 +6,22 @@ points:
       key:
         padding: 1ky
         spread: 1kx
-      rotate: -12
+      rotate: 0
       columns:
         pinky:
-          rows.bottom:
-            rotate: -90
-          rows.home:
-            rotate: 90
-            shift: [-1kx, -1kx]
+          rows.bottom.shift: [-2, 0]
         ring.key:
-          stagger: 0.25kx
-        middle.key.stagger: 0.25kx
-        index.key.stagger: -0.25kx
+          splay: pinky_splay
+          stagger: 7
+        middle.key:
+          splay: 0
+          stagger: 3
+        index.key:
+          splay: 0
+          stagger: -5
         inner:
-          key.stagger: -0.15kx
+          key:
+            stagger: -4
           rows.top.rotate: 90
       rows:
         bottom.padding: kx
@@ -28,7 +30,7 @@ points:
     thumb:
       anchor:
         ref: matrix_middle_bottom
-        shift: [0.4kx, -1.35kx]
+        shift: [7.5, -26]
       columns:
         inner:
           key.name: thumb_inner
@@ -43,7 +45,7 @@ points:
           key.splay: -14
           key.stagger: 3
           key.origin: [-0.5kx, -0.5kx]
-          key.shift: [3, 0]
+          key.shift: [2.2, 0]
           key.rotate: 90
           key.width: thumb_size * kx
           key.name: thumb_reachy
@@ -77,451 +79,180 @@ outlines:
     - what: rectangle
       size: [100, 100]
       adjust.shift: [center_x, center_y]
-  combo:
-    - name: _limits
-    - operation: stack
-      name: _keys
-    - operation: stack
-      name: _thumb
   pcb_outline:
     - what: polygon
       points:
-        - shift: [center_x-50, center_y+50]
+        - shift: [center_x-50, center_y-50+bottom_left_pcb_cut]
+        - shift: [0, 100-bottom_left_pcb_cut]
         - shift: [100, 0]
-        - shift: [0, -100]
-        # - shift: [-40, 0]
-        # - shift: [-15, 15]
-        # - shift: [-45, 0]
-        - shift: [-100, 0]
+        - shift: [0, -95.25]
+        - shift: [-4, -4.75]
+        - shift: [-96 + abs(bottom_left_pcb_cut/tan(pinky_splay*pi/180)), 0]
       fillet: 2
-  pcb_outline_combo:
-    - name: pcb_outline
-    - operation: stack
-      name: _keys
-    - operation: stack
-      name: _limits
-  # ==================== case ====================
-  _case_outline:
+  case_outline:
     - what: polygon
       points:
-        - shift: [center_x-50-case_left_padding, center_y+50+case_top_padding] # top left of case
-        - shift: [100+case_left_padding+case_right_padding, 0] # top right of case
-        - shift: [0, -100-case_top_padding-case_bottom_padding-case_to_pcb] # bottom right of case
-        - shift: [-1*case_thumb_traverse, 0] # bottom left of thumb
-        - shift: [-1*case_bottom_padding, case_bottom_padding] # angled up following thumb
-        - shift: [case_thumb_traverse+case_bottom_padding-case_left_padding-case_right_padding-100, 0] # bottom left of case
-      fillet: 2
-  _case_outline_xl:
-    - what: polygon
-      points:
-        - shift: [center_x-50-case_left_padding-wall_thickness, center_y+50+case_top_padding+wall_thickness]
-        - shift: [100+case_left_padding+case_right_padding+(wall_thickness*2), 0]
-        - shift: [0, -100-case_top_padding-case_bottom_padding-case_to_pcb-(wall_thickness*2)]
-        - shift: [-1*case_thumb_traverse-(wall_thickness*1.5), 0]
-        - shift: [-1*case_bottom_padding, case_bottom_padding]
-        - shift: [case_thumb_traverse+case_bottom_padding-case_left_padding-case_right_padding-100-(wall_thickness*0.5), 0]
-      fillet: 2
-  # ==================== mounting ====================
-  _mounting:
-    - what: circle
-      where.shift: [mounting_1_x, mounting_1_y]
-      radius: screwSize
-    - what: circle
-      where.shift: [mounting_2_x, mounting_2_y]
-      radius: screwSize
-    - what: circle
-      where.shift: [mounting_3_x, mounting_3_y]
-      radius: screwSize
-    - what: circle
-      where.shift: [mounting_4_x, mounting_4_y]
-      radius: screwSize
-    - what: circle
-      where.shift: [mounting_5_x, mounting_5_y]
-      radius: screwSize
-    - what: circle
-      where.shift: [mounting_6_x, mounting_6_y]
-      radius: screwSize
-  _mounting_case_only:
-    - what: circle
-      where.shift: [mounting_7_x, mounting_7_y]
-      radius: screwSize
-    - what: circle
-      where.shift: [mounting_8_x, mounting_8_y]
-      radius: screwSize
-  _mounting_tight:
-    - what: circle
-      where.shift: [mounting_1_x, mounting_1_y]
-      radius: screwSize_tight
-    - what: circle
-      where.shift: [mounting_2_x, mounting_2_y]
-      radius: screwSize_tight
-    - what: circle
-      where.shift: [mounting_3_x, mounting_3_y]
-      radius: screwSize_tight
-    - what: circle
-      where.shift: [mounting_4_x, mounting_4_y]
-      radius: screwSize_tight
-    - what: circle
-      where.shift: [mounting_5_x, mounting_5_y]
-      radius: screwSize_tight
-    - what: circle
-      where.shift: [mounting_6_x, mounting_6_y]
-      radius: screwSize_tight
-  _mounting_tight_case_only:
-    - what: circle
-      where.shift: [mounting_7_x, mounting_7_y]
-      radius: screwSize_tight
-    - what: circle
-      where.shift: [mounting_8_x, mounting_8_y]
-      radius: screwSize_tight
-  _standoff:
-    - what: circle
-      where.shift: [mounting_1_x, mounting_1_y]
-      radius: standoffSize
-    - what: circle
-      where.shift: [mounting_2_x, mounting_2_y]
-      radius: standoffSize
-    - what: circle
-      where.shift: [mounting_3_x, mounting_3_y]
-      radius: standoffSize
-    - what: circle
-      where.shift: [mounting_4_x, mounting_4_y]
-      radius: standoffSize
-    - what: circle
-      where.shift: [mounting_5_x, mounting_5_y]
-      radius: standoffSize
-    - what: circle
-      where.shift: [mounting_6_x, mounting_6_y]
-      radius: standoffSize
-  _standoff_case_only:
-    - what: circle
-      where.shift: [mounting_7_x, mounting_7_y]
-      radius: standoffSize
-    - what: circle
-      where.shift: [mounting_8_x, mounting_8_y]
-      radius: standoffSize
-  _standoff_bottom_wall:
-    - what: circle
-      where.shift: [mounting_1_x, mounting_1_y]
-      radius: bottom_screwhole_wall
-    - what: circle
-      where.shift: [mounting_2_x, mounting_2_y]
-      radius: bottom_screwhole_wall
-    - what: circle
-      where.shift: [mounting_3_x, mounting_3_y]
-      radius: bottom_screwhole_wall
-    - what: circle
-      where.shift: [mounting_4_x, mounting_4_y]
-      radius: bottom_screwhole_wall
-    - what: circle
-      where.shift: [mounting_5_x, mounting_5_y]
-      radius: bottom_screwhole_wall
-    - what: circle
-      where.shift: [mounting_6_x, mounting_6_y]
-      radius: bottom_screwhole_wall
-  _standoff_bottom_wall_case_only:
-    - what: circle
-      where.shift: [mounting_7_x, mounting_7_y]
-      radius: bottom_screwhole_wall
-    - what: circle
-      where.shift: [mounting_8_x, mounting_8_y]
-      radius: bottom_screwhole_wall
-  # ==================== control_area ====================
-  control_area:
-    - what: polygon
-      points:
-        - shift: [center_x-44, center_y-50.2]
-        - shift: [0, 38.2]
-        - shift: [22.5, 0]
-        - shift: [8, -9]
-        - shift: [0, -10.5]
-        - shift: [10, -2]
-        - shift: [5, -5]
-        - shift: [0, -11.7]
-      fillet: 1
-  # ==================== plate ====================
-  plate:
+        - shift: [center_x-50-case_left_offset, center_y-50+bottom_left_case_cut]
+        - shift: [0, 100-bottom_left_case_cut+case_top_offset]
+        - shift: [100 + case_left_offset + case_right_offset, 0]
+        - shift: [0, 10-100-case_top_offset]
+        - shift: [-12, -14.5]
+        - shift: [(-100+12-case_left_offset-case_right_offset) +abs((bottom_left_case_cut+14.5-10)/tan(pinky_splay*pi/180)), 0]
+      fillet: 3
+  controller_outline:
     - what: rectangle
+      size: [33.02, 17.78]
+      adjust: 
+        shift: [center_x+mcu_x, center_y+mcu_y]
+        rotate: mcu_rot
+  _mx_hotswap_sockets:
+    - what: polygon
       where: true
-      size: [plate_switch_hole_x, plate_switch_hole_y]
-  plate_supports:
-    - what: rectangle
+      points:
+        - shift: [-9, -0.5]
+        - shift: [0, -3.5]
+        - shift: [2.5, 0]
+        - shift: [0, -2]
+        - shift: [1, -1]
+        - shift: [13.5, 0]
+        - shift: [0, 4]
+        - shift: [-8, 0]
+        - shift: [-2.5, 2.5]
+  _mx_hotswap_sockets_rev:
+    - what: polygon
       where: true
-      size: [plate_support_x, plate_support_y]
-  # ==================== power switch extension ====================
-  _switch_extension_supp:
-    - what: rectangle
-      where.shift: [center_x + power_x, center_y-50-case_to_pcb-(ps_ext_supp_thickness/2)]
-      size: [(ps_ext_supp_x*2)+ps_outer_x, ps_ext_supp_thickness]
-  _switch_extension_main:
-    - what: rectangle
-      where.shift: [center_x + power_x, center_y-50-case_to_pcb-((ps_outer_y_from_wall+wall_thickness)/2)]
-      size: [ps_outer_x, ps_outer_y_from_wall+wall_thickness]
-    - +_switch_extension_supp
-  _switch_extension_cuttout:
-    - what: rectangle
-      where.shift: [center_x + power_x, center_y-50-case_to_pcb-(ps_ext_cuttout_y/2)]
-      size: [ps_ext_cuttout_x, ps_ext_cuttout_y]
+      points:
+        - shift: [9, -0.5]
+        - shift: [0, -3.5]
+        - shift: [-2.5, 0]
+        - shift: [0, -2]
+        - shift: [-1, -1]
+        - shift: [-13.5, 0]
+        - shift: [0, 4]
+        - shift: [8, 0]
+        - shift: [2.5, 2.5]
+  _choc_hotswap_sockets:
+    - what: polygon
+      where: true
+      points:
+        - shift: [-7.5, 1]
+        - shift: [0, 1]
+        - shift: [-1.5, 0]
+        - shift: [0, 3]
+        - shift: [1.5, 0]
+        - shift: [0, 1]
+        - shift: [3.5, 0]
+        - shift: [1.5, 1.5]
+        - shift: [0, 1]
+        - shift: [4.8, 0]
+        - shift: [0, -1]
+        - shift: [1.5, 0]
+        - shift: [0, -3]
+        - shift: [-1.5, 0]
+        - shift: [0, -1]
+        - shift: [-3.3, 0]
+        - shift: [-1.5, -1.5]
+        - shift: [0,-1]
+  _choc_hotswap_sockets_rev:
+    - what: polygon
+      where: true
+      points:
+        - shift: [7.5, 1]
+        - shift: [0, 1]
+        - shift: [1.5, 0]
+        - shift: [0, 3]
+        - shift: [-1.5, 0]
+        - shift: [0, 1]
+        - shift: [-3.5, 0]
+        - shift: [-1.5, 1.5]
+        - shift: [0, 1]
+        - shift: [-4.8, 0]
+        - shift: [0, -1]
+        - shift: [-1.5, 0]
+        - shift: [0, -3]
+        - shift: [1.5, 0]
+        - shift: [0, -1]
+        - shift: [3.3, 0]
+        - shift: [1.5, -1.5]
+        - shift: [0,-1]
 
-  _switch_extension_supp_opening:
-    - what: rectangle
-      where.shift: [center_x + power_x, center_y-50-case_to_pcb-((ps_ext_supp_thickness+ps_ext_supp_to_wall)/2)]
-      size: [((ps_ext_supp_x+ps_ext_supp_x_padding)*2)+ps_outer_x, ps_ext_supp_thickness+ps_ext_supp_to_wall]
-  _switch_opening:
-    - what: rectangle
-      where.shift: [center_x + power_x, center_y-50-case_to_pcb-(wall_thickness/2)]
-      size: [ps_hole_x, wall_thickness]
-    - +_switch_extension_supp_opening
-  _switch_backsupport_tall:
-    - what: rectangle
-      where.shift: [center_x+power_x+(ps_backsupp_low_x/2)+(ps_backsupp_tall_x/2), center_y-50-case_to_pcb+(ps_backsupp_thickness/2)]
-      size: [ps_backsupp_tall_x, ps_backsupp_thickness]
-  pw_switch_combo:
-    - name: _switch_extension_main
-    - ^_switch_opening
-    - ^_switch_extension_cuttout
-    - ^_switch_backsupport_tall
+  _gat_hotswap_sockets:
+    - what: polygon
+      where: true
+      points:
+        - shift: [-9.5, 2.5]
+        - shift: [0, 4.5]
+        - shift: [6, 0]
+        - shift: [2, 1]
+        - shift: [9, 0]
+        - shift: [0, -4.5]
+        - shift: [-8.5, 0]
+        - shift: [-2, -1]
+  _gat_hotswap_sockets_rev:
+    - what: polygon
+      where: true
+      points:
+        - shift: [9.5, 2.5]
+        - shift: [0, 4.5]
+        - shift: [-6, 0]
+        - shift: [-2, 1]
+        - shift: [-9, 0]
+        - shift: [0, -4.5]
+        - shift: [8.5, 0]
+        - shift: [2, -1]
 
-  # ==================== openings ====================
-  _usbc_opening:
-    - what: rectangle
-      where.shift: [center_x + mcu_x, center_y-50-case_to_pcb-(wall_thickness/2)]
-      size: [usbc_x, wall_thickness]
-  _usbc_opening_sideview:
-    - what: rectangle
-      where.shift: [center_x + mcu_x, center_y-50]
-      size: [usbc_x, usbc_z]
-      fillet: 1
+  _mounting_m2:
+    - what: circle
+      where.shift: [mounting_0_x, mounting_0_y]
+      radius: 2.2
+  _mounting_m3:
+    - what: circle
+      where.shift: [mounting_1_x, mounting_1_y]
+      radius: 2.7
+    - what: circle
+      where.shift: [mounting_2_x, mounting_2_y]
+      radius: 2.7
+    - what: circle
+      where.shift: [mounting_3_x, mounting_3_y]
+      radius: 2.7
+    - what: circle
+      where.shift: [mounting_4_x, mounting_4_y]
+      radius: 2.7
 
-  _reset_hole:
-    - what: rectangle
-      where.shift: [center_x+reset_x, center_y+reset_y]
-      size: [reset_hole_x, reset_hole_y]
-      fillet: reset_hole_fillet
-
-  # ==================== combos ====================
-  
-  case_outline_combo:
-    - name: _case_outline
-    - ^_case_outline_xl
-    - ^pcb_outline
-    - ^_expanded_key_outline
-    - ^_mounting
-    - ^_standoff
-    - ^control_area
-
-  case_outline_bottom:
-    - name: _case_outline
-    - ^_case_outline_xl
-    - ^_mounting
-    - ^_standoff
-    - ^_standoff_bottom_wall
-  case_outline_top:
-    - name: _case_outline
-    - ^_case_outline_xl
-    # - ^pcb_outline
-    - ^_expanded_key_outline
-    - ^_mounting
-    - ^_standoff
-    - ^control_area
   display_all_combo:
-    - name: plate_supports
-    - ^_case_outline
-    - ^_case_outline_xl
-    - ^_mounting
-    - ^_standoff
-    - ^_standoff_bottom_wall
-    - ^_mounting_case_only
-    - ^_standoff_case_only
-    - ^_standoff_bottom_wall_case_only
-    - ^control_area
-    - ^plate
-    - ^_expanded_key_outline
-    - ^pw_switch_combo
-    - ^_usbc_opening
-    - ^_reset_hole
-    # - ^_wireless_switch_combo
-    - ^pcb_outline
-    # - ^_usbc_opening_sideview
-cases:
-  _top_mounting:
-    - name: _mounting
-      extrude: mounting_top_extrude
-      shift: [0, 0, top_case_height-mounting_top_extrude]
-      operation: add
-    - name: _mounting_case_only
-      extrude: mounting_top_extrude+pcb_thickness/2
-      shift: [0, 0, top_case_height-mounting_top_extrude]
-      operation: add
-  _top_mounting_standoffs:
-    - name: _standoff_bottom_wall_case_only
-      extrude: pcb_thickness/2
-      shift: [0, 0, top_case_height]
-      operation: add
-  _control_area:
-    - name: control_area
-      extrude: top_case_height-control_area_ceil_thickness
-      shift: [0, 0, control_area_ceil_thickness]
-      operation: add
-  _plate:
-    - name: plate_supports
-      extrude: plate_z - plate_thickness
-      shift: [0, 0, top_case_height-plate_z+plate_thickness]
-      operation: add
-    - name: plate
-      extrude: plate_z
-      shift: [0, 0, top_case_height-plate_z]
-      operation: add
-    - name: _expanded_key_outline
-      extrude: top_case_height-plate_z
-      operation: add
-  _usbc_opening:
-    - name: _usbc_opening_sideview
-      extrude: 3
-      shift: [0, 0, wall_thickness+case_to_pcb+(usbc_z/2)]
-      rotate: [90, 0, 0]
-      operation: add
-  _switch_opening:
-    - name: _switch_opening
-      extrude: ps_hole_z
-      shift: [0, 0, top_case_height+(pcb_thickness/2)-ps_hole_z]
-      operation: add
-  _switch_support:
-    - name: _switch_backsupport_tall
-      extrude: top_case_height
-      operation: add
-  _top_walls:
-    - name: _case_outline_xl
-      extrude: top_case_height+(pcb_thickness/2)
-      operation: add
-    - name: _case_outline
-      extrude: pcb_thickness/2
-      shift: [0, 0, top_case_height]
-      operation: subtract
-  _top_case:
-    - what: case
-      name: _top_walls
-    - what: case
-      name: _top_mounting_standoffs
-    - what: case
-      name: _top_mounting
-      operation: subtract
-    - what: case
-      name: _control_area
-      operation: subtract
-    - what: case
-      name: _plate
-      operation: subtract
-    - what: case
-      name: _usbc_opening
-      operation: subtract
-    - what: case
-      name: _switch_opening
-      operation: subtract
-    - what: case
-      name: _switch_support
-      operation: add
-  _top_case_wall_subtract:
-    - name: _case_outline_xl
-      extrude: pcb_thickness/2
-      shift: [0, 0, top_case_height+(pcb_thickness/2)]
-      operation: add
-    - name: _case_outline
-      extrude: pcb_thickness/2
-      shift: [0, 0, top_case_height+(pcb_thickness/2)]
-      operation: subtract
-  top_case:
-    - what: case
-      name: _top_case
-      shift: [-center_x, -center_y, 0]
-    - what: case
-      name: _top_case_wall_subtract
-      shift: [-center_x, -center_y, 0]
-      operation: subtract
-      
-  _reset_hole:
-    - name: _reset_hole
-      extrude: bottom_thickness
-      operation: add
-  _bottom_case_walls:
-    - name: _case_outline_xl
-      extrude: bottom_case_height+(pcb_thickness/2)
-      operation: add
-    - name: _case_outline
-      extrude: bottom_case_height+(pcb_thickness/2)-bottom_thickness
-      shift: [0, 0, bottom_thickness]
-      operation: subtract
-  _bottom_case:
-    - what: case
-      name: _bottom_case_walls
-    - what: case
-      name: _reset_hole
-      operation: subtract
-    - name: _standoff_bottom_wall
-      extrude: bottom_case_height
-      operation: add
-    - name: _standoff_bottom_wall_case_only
-      extrude: bottom_case_height + pcb_thickness/2
-      operation: add
-    - name: _standoff
-      extrude: bottom_case_height-bottom_standoff_thickness
-      operation: subtract
-    - name: _standoff_case_only
-      extrude: bottom_case_height-bottom_standoff_thickness
-      operation: subtract
-    - name: _mounting_tight
-      extrude: bottom_case_height
-      operation: subtract
-    - name: _mounting_tight_case_only
-      extrude: bottom_case_height + pcb_thickness/2
-      operation: subtract
-  
-  # add an additional bridging layer so that supports aren't needed when 3d printing
-  # note that this layer needs to be manually removed later
-  _3dp_bridging_bottom:
-    - name: _standoff
-      extrude: layer_height_3dp
-      shift: [0, 0, bottom_case_height-bottom_standoff_thickness]
-      operation: add
-    - name: _standoff_case_only
-      extrude: layer_height_3dp
-      shift: [0, 0, bottom_case_height-bottom_standoff_thickness]
-      operation: add
+    - name: pcb_outline
+    - ^controller_outline
+    - ^_keys
+    - ^_mx_hotswap_sockets
+    - ^_mx_hotswap_sockets_rev
+    - ^_gat_hotswap_sockets
+    - ^_gat_hotswap_sockets_rev
+    - ^case_outline
+    - ^_mounting_m2
+    - ^_mounting_m3
+  display_all_rotated:
+    - name: display_all_combo
+      adjust.rotate: pinky_splay
+      operation: stack
 
-  bottom_case:
-    - what: case
-      name: _bottom_case
-      shift: [-center_x, -center_y, 0]
-    - what: case
-      name: _3dp_bridging_bottom
-      shift: [-center_x, -center_y, 0]
-
-  _switch_extension:
-    - name: _switch_extension_main
-      extrude: ps_hole_z
-      operation: add
-    - name: _switch_extension_cuttout
-      extrude: ps_cuttout_z
-      operation: subtract
-  switch_extension:
-    - what: case
-      name: _switch_extension
-      shift: [-center_x - power_x, -center_y+50+case_to_pcb+(ps_ext_cuttout_y/2), 0]
 pcbs:
   board:
     outlines:
       edge:
         outline: pcb_outline
         layer: Edge.Cuts
-      control_area:
-        outline: control_area
-        layer: Dwgs.User
-      case_outline:
-        outline: _case_outline
-        layer: Dwgs.User
-      case_outline_xl:
-        outline: _case_outline_xl
-        layer: Dwgs.User
+      mx_hotswap_sockets:
+        outline: _mx_hotswap_sockets
+        layer: F.SilkS
+      mx_hotswap_sockets_rev:
+        outline: _mx_hotswap_sockets_rev
+        layer: B.SilkS
+      lp_hotswap_sockets:
+        outline: _gat_hotswap_sockets
+        layer: F.SilkS
+      lp_hotswap_sockets_rev:
+        outline: _gat_hotswap_sockets_rev
+        layer: B.SilkS
     footprints:
       keys:
         what: key-switches
@@ -552,8 +283,8 @@ pcbs:
       mcu:
         what: promicro-pretty
         where:
-          shift: [center_x + mcu_x, center_y + mcu_y]
-          rotate: 90
+          shift: [center_x+mcu_x, center_y+mcu_y]
+          rotate: mcu_rot
         params:
           P7: matrix_pinky_top
           P18: matrix_ring_top
@@ -572,23 +303,13 @@ pcbs:
           P6: matrix_inner_bottom
           P8: thumb_tucky
           P9: thumb_reachy
+          P0: thumb_inner
           RAW: RAW
-      trrs:
-        what: trrs
-        where:
-          - shift: [center_x + trrs_x, center_y + trrs_y]
-        params:
-          reverse: true
-          symmetric: true
-          A: GND
-          B: GND
-          C: trrs_data
-          D: VCC
       reset:
         what: reset_button
         where:
           shift: [center_x + reset_x, center_y + reset_y]
-          rotate: 180
+          rotate: reset_rot
         params:
           from: GND
           to: RST
@@ -596,6 +317,7 @@ pcbs:
         what: b3u1000p
         where:
           shift: [center_x + reset_x, center_y + reset_y]
+          rotate: 180+reset_rot
         params:
           r2: GND
           r1: RST
@@ -603,7 +325,7 @@ pcbs:
         what: slider_threeway
         where:
           shift: [center_x + power_x, center_y + power_y]
-          rotate: 180
+          rotate: power_rot
         params:
           from: Bplus
           left: ''
@@ -612,81 +334,41 @@ pcbs:
           # if the switch is verticle, reverse the left and right nets on back side
           # or to just make the wiring easier
           reverse_left_right: true 
-      slider_wireless:
-        what: slider_threeway
-        where:
-          shift: [center_x + wireless_x, center_y + wireless_y]
-          rotate: -90
-        params:
-          from: P0
-          left: thumb_inner
-          right: trrs_data
-          reversible: true
-          # if the switch is verticle, reverse the left and right nets on back side
-          reverse_left_right: true 
-      wireless_marker:
-        what: text
-        where:
-          shift: [center_x + wireless_x-3.2, center_y + wireless_y+2]
-          rotate: 90
-        params:
-          side: "F"
-          text: "wireless"
-          h_size: .5
-          v_size: .5
-      wireless_box:
-        what: text
-        where:
-          shift: [center_x + wireless_x-2, center_y + wireless_y+1.6]
-          rotate: 90
-        params:
-          side: "F"
-          text: "口"
-          h_size: 1.5
-          v_size: 2.2
-      wired_marker:
-        what: text
-        where:
-          shift: [center_x + wireless_x-3.2, center_y + wireless_y-2]
-          rotate: 90
-        params:
-          side: "B"
-          text: "wired"
-          h_size: .5
-          v_size: .5
-      wired_box:
-        what: text
-        where:
-          shift: [center_x + wireless_x-2, center_y + wireless_y-1.5]
-          rotate: 90
-        params:
-          side: "B"
-          text: "口"
-          h_size: 1.5
-          v_size: 2.2
       jst:
         what: jstph_reversible
         where:
           shift: [center_x+jst_x, center_y+jst_y]
-          rotate: 180
+          rotate: jst_rot
         params:
           pos: Bplus
           neg: GND
+      mounting_hole_0:
+        what: mountinghole
+        where.shift: [mounting_0_x, mounting_0_y]
+        params:
+          drill_size: 2.2
+          outer_size: 4.4
       mounting_hole_1:
         what: mountinghole
         where.shift: [mounting_1_x, mounting_1_y]
+        params:
+          drill_size: 3.2
+          outer_size: 5.4
       mounting_hole_2:
         what: mountinghole
         where.shift: [mounting_2_x, mounting_2_y]
+        params:
+          drill_size: 3.2
+          outer_size: 5.4
       mounting_hole_3:
         what: mountinghole
         where.shift: [mounting_3_x, mounting_3_y]
+        params:
+          drill_size: 3.2
+          outer_size: 5.4
       mounting_hole_4:
         what: mountinghole
         where.shift: [mounting_4_x, mounting_4_y]
-      mounting_hole_5:
-        what: mountinghole
-        where.shift: [mounting_5_x, mounting_5_y]
-      mounting_hole_6:
-        what: mountinghole
-        where.shift: [mounting_6_x, mounting_6_y]
+        params:
+          drill_size: 3.2
+          outer_size: 5.4
